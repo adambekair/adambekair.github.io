@@ -17,7 +17,8 @@ const url = new URL(path, Astro.site).toString();
     <meta property="og:description" content={description} />
     <meta property="og:url" content={url} />
     {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
-    <style>
+    <link rel="icon" href="data:," />
+    <style is:global>
       :root {
         --tlo: #f5f3ee;
         --tekst: #1c1f22;
@@ -66,7 +67,7 @@ const url = new URL(path, Astro.site).toString();
     </main>
     <footer>
       <p>Opinie prywatne. Nie reprezentuję pracodawcy.</p>
-      <p>Strona nie zbiera danych: bez formularzy, ciasteczek i analityki.</p>
+      <p>Strona nie ma formularzy, ciasteczek ani analityki. Hosting (GitHub Pages) może zapisywać adresy IP w logach technicznych.</p>
     </footer>
   </body>
 </html>

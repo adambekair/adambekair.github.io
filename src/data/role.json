@@ -4,7 +4,8 @@
     "stanowisko": "Kierownik robót",
     "opis": "Pokazuję inżynierom i kierownikom budów, jak używać modeli językowych przy dokumentacji tak, żeby wynik dało się sprawdzić przed odbiorem.",
     "linkedin": "https://www.linkedin.com/in/adam-bekair/",
-    "miasto": "Gdańsk"
+    "miasto": "Gdańsk",
+    "aktualizacja": "2026-11-16"
   },
   "role": [
     { "firma": "NDI", "stanowisko": "Kierownik robót", "od": "2025-02", "do": null },

@@ -7,7 +7,7 @@
     "model": "Model tylko odczytuje E1 i E2 z protokołu i zapisuje je w formacie JSON. Ma zakaz liczenia.",
     "kod": "Skrypt dzieli E2 przez E1 i porównuje wynik z progiem ze specyfikacji. Przy przekroczeniu progu zwraca błąd.",
     "czlowiek": "Inżynier sprawdza wartości odczytane ze skanu i podejmuje decyzję o odbiorze warstwy.",
-    "efekt": "Wynik poza progiem ze specyfikacji nie przechodzi niezauważony. Skrypt zgłasza błąd przed decyzją o odbiorze.",
+    "efekt": "W moich testach skrypt zgłasza błąd, gdy wynik przekracza próg ze specyfikacji, zanim zapadnie decyzja o odbiorze.",
     "ograniczenia": "Skrypt jest tak dobry, jak próg, który mu podasz. Próg musi pochodzić ze specyfikacji projektu. Model może błędnie odczytać cyfry ze słabego skanu, dlatego wartości zawsze podlegają kontroli człowieka."
   },
   {
@@ -16,9 +16,9 @@
     "skrot": "Odpowiedzi tylko z wgranych plików, każda z przypisem do strony.",
     "problem": "Nowi inżynierowie i podwykonawcy pytają kierownika o rzeczy zapisane w specyfikacji technicznej i projekcie. Odpowiedź istnieje w dokumentach, ale jej szukanie zajmuje czas.",
     "model": "Narzędzie do pracy na własnych źródłach dostaje dokumentację. Instrukcja mówi: odpowiadaj tylko z wgranych plików, a przy braku danych napisz „nie mam informacji”. Każda odpowiedź ma przypis do strony i akapitu.",
-    "kod": "Kod nie liczy tu niczego. Pilnuje formy: odpowiedź bez przypisu jest odrzucana.",
+    "kod": "Kod nie liczy tu niczego. Pilnuje formy: odpowiedź bez przypisu uznaję za nieważną.",
     "czlowiek": "Człowiek klika w przypis i czyta źródło, zanim użyje odpowiedzi w decyzji lub na piśmie.",
-    "efekt": "Nowy inżynier dostaje odpowiedź z przypisem do strony i sprawdza ją w źródle.",
+    "efekt": "Odpowiedź ma przypis do strony, więc inżynier może ją sprawdzić w źródle.",
     "ograniczenia": "Dokumentacja inwestora jest poufna. Takie narzędzie wolno uruchomić na dokumentach publicznych, na przykład przetargowych, albo w wersji zatwierdzonej przez organizację. Model może pominąć kolizję między dokumentami. Brak odpowiedzi nie dowodzi, że zapisu nie ma."
   },
   {
@@ -27,9 +27,9 @@
     "skrot": "Zdjęcie dostawy zamienia się w rekord ze statusem „do sprawdzenia”.",
     "problem": "Kwity dostaw betonu i kruszywa trafiają do bazy przez ręczne przepisywanie. To powtarzalna praca i źródło literówek.",
     "model": "Zdjęcie kwitu trafia do modelu multimodalnego. Model zwraca rekord: data, materiał, ilość.",
-    "kod": "Schemat danych sprawdza typy i zakresy. Rekord, który schematu nie spełnia, jest odrzucany. Poprawny rekord dostaje status „do sprawdzenia”.",
+    "kod": "Schemat danych sprawdza typy i zakresy. Rekord, który schematu nie spełnia, trafia do odrzucenia. Poprawny rekord dostaje status „do sprawdzenia”.",
     "czlowiek": "Człowiek porównuje rekord ze zdjęciem i zatwierdza go jednym kliknięciem.",
-    "efekt": "Kwitu nie trzeba przepisywać. Człowiek porównuje rekord ze zdjęciem i zatwierdza.",
-    "ograniczenia": "Na prawdziwych kwitach są dane dostawców i numery rejestracyjne, więc na tej stronie pokazuję wyłącznie wygenerowane przykłady. Model może źle odczytać ręczne dopiski. Zatwierdzenie przez człowieka jest obowiązkowe."
+    "efekt": "Celem jest, żeby kwitu nie trzeba było przepisywać: człowiek porównuje rekord ze zdjęciem i zatwierdza.",
+    "ograniczenia": "Na prawdziwych kwitach są dane dostawców i numery rejestracyjne, dlatego nie publikuję tu żadnych przykładów z budowy. Model może źle odczytać ręczne dopiski. Zatwierdzenie przez człowieka jest obowiązkowe."
   }
 ]

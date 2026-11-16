@@ -1,10 +1,12 @@
 // Czas trwania roli liczony kodem z pól "od" i "do" (format RRRR-MM).
-// "do": null oznacza rolę trwającą do dnia budowy strony.
-export function miesiace(od, doo, teraz = new Date()) {
+// "do": null oznacza rolę trwającą do daty ostatniej aktualizacji treści
+// (podawanej jawnie), a nie do daty buildu, więc wynik jest powtarzalny.
+export function miesiace(od, doo, naDzien) {
   const [y1, m1] = od.split('-').map(Number);
+  const teraz = new Date(naDzien);
   const [y2, m2] = doo
     ? doo.split('-').map(Number)
-    : [teraz.getFullYear(), teraz.getMonth() + 1];
+    : [teraz.getUTCFullYear(), teraz.getUTCMonth() + 1];
   return (y2 - y1) * 12 + (m2 - m1) + 1; // oba miesiące liczone włącznie
 }
 
