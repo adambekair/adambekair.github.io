@@ -1,0 +1,72 @@
+---
+import dane from '../data/role.json';
+const { title, description, path = '/', jsonld = null } = Astro.props;
+const url = new URL(path, Astro.site).toString();
+---
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+    <style>
+      :root {
+        --tlo: #f5f3ee;
+        --tekst: #1c1f22;
+        --akcent: #b8430a;
+        --linia: #d9d5cb;
+        --przygaszony: #4a4f55;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--tlo);
+        color: var(--tekst);
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.65;
+        font-size: 1.0625rem;
+      }
+      main, header, footer { max-width: 44rem; margin: 0 auto; padding: 0 1rem; }
+      header { padding-top: 1.25rem; }
+      nav a { margin-right: 1rem; }
+      h1 { font-size: 2.1rem; line-height: 1.2; margin: 2.5rem 0 0.5rem; }
+      h2 { font-size: 1.35rem; margin: 2.75rem 0 0.75rem; border-top: 1px solid var(--linia); padding-top: 1.5rem; }
+      h3 { font-size: 1.1rem; margin: 1.5rem 0 0.25rem; }
+      a { color: var(--akcent); text-underline-offset: 0.15em; }
+      a:focus-visible, summary:focus-visible { outline: 3px solid var(--tekst); outline-offset: 2px; }
+      .podtytul { font-size: 1.2rem; color: var(--przygaszony); margin: 0 0 1.25rem; }
+      .przycisk { display: inline-block; background: var(--tekst); color: var(--tlo); padding: 0.7rem 1.25rem; text-decoration: none; font-weight: 600; }
+      .przycisk:hover { background: var(--akcent); }
+      ul.bez { list-style: none; padding: 0; }
+      ul.bez li { margin: 0 0 1rem; }
+      .meta { color: var(--przygaszony); font-size: 0.95rem; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.98rem; }
+      th, td { text-align: left; border-bottom: 1px solid var(--linia); padding: 0.45rem 0.5rem 0.45rem 0; vertical-align: top; }
+      th { width: 11rem; font-weight: 600; }
+      footer { padding-top: 2.5rem; padding-bottom: 3rem; color: var(--przygaszony); font-size: 0.95rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Główna">
+        <a href="/">{dane.osoba.imie}</a>
+        <a href={dane.osoba.linkedin} rel="me noopener">LinkedIn</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <p>Opinie prywatne. Nie reprezentuję pracodawcy.</p>
+      <p>Strona nie zbiera danych: bez formularzy, ciasteczek i analityki.</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+import dane from '../data/role.json';
+import przypadki from '../data/przypadki.json';
+import { miesiace, opisCzasu, etykieta } from '../lib/czas.js';
+
+const { osoba } = dane;
+const dataBudowy = new Date().toISOString().slice(0, 10);
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  dateModified: dataBudowy,
+  mainEntity: {
+    '@type': 'Person',
+    name: osoba.imie,
+    jobTitle: osoba.stanowisko,
+    description: osoba.opis,
+    url: new URL('/', Astro.site).toString(),
+    sameAs: [osoba.linkedin],
+    knowsAbout: ['AI w budownictwie', 'Budownictwo drogowe', 'Modele językowe', 'Dokumentacja budowy'],
+    homeLocation: { '@type': 'Place', name: osoba.miasto },
+    alumniOf: dane.wyksztalcenie.map((w) => ({ '@type': 'EducationalOrganization', name: w.uczelnia })),
+  },
+};
+
+const role = dane.role.map((r) => ({
+  ...r,
+  czas: opisCzasu(miesiace(r.od, r.do)),
+  zakres: `${etykieta(r.od)} – ${r.do ? etykieta(r.do) : 'obecnie'}`,
+}));
+---
+<Layout
+  title="Adam Bekair – AI w budownictwie"
+  description={osoba.opis}
+  path="/"
+  jsonld={jsonld}
+>
+  <h1>Adam Bekair – AI w budownictwie</h1>
+  <p class="podtytul">Kierownik robót drogowych. Sprawdzam, którą ręczną pracę przy dokumentacji budowy może przygotować model językowy.</p>
+  <p><strong>{osoba.opis}</strong></p>
+  <p>Kwity dostaw przepisywane ręcznie do arkusza. Moduły z protokołu VSS do przeliczenia i porównania z progiem. Pytanie o zapis, którego trzeba szukać w grubej specyfikacji. Tak wygląda część mojej pracy z dokumentami. Uważam, że model może ją przygotować, a człowiek sprawdzić.</p>
+  <p class="meta">Na budowach od 2015 r., m.in. w STRABAG, Budimex i NDI. Uprawnienia drogowe do kierowania robotami bez ograniczeń.</p>
+  <p>Masz podobny problem z dokumentacją albo chcesz zaprosić mnie na wystąpienie?</p>
+  <p><a class="przycisk" href={osoba.linkedin} rel="me noopener">Napisz na LinkedIn</a></p>
+
+  <h2>Skąd to podejście</h2>
+  <p>Z mojej perspektywy dużo pracy z dokumentami wciąż robimy na budowie ręcznie. Nie chcę na to czekać. Testuję modele językowe na typowych zadaniach z budowy, bez danych poufnych, i pokazuję, jak sprawdzać ich wynik.</p>
+
+  <h2>Co jest dla mnie ważne dziś</h2>
+  <ul>
+    <li>Boisz się, że model zmyśli liczbę? U mnie liczby liczy kod, nie model.</li>
+    <li>Wynik da się sprawdzić. Odpowiedź bez źródła nie wchodzi do dokumentu.</li>
+    <li>Człowiek zatwierdza. Model przygotowuje, inżynier odpowiada.</li>
+  </ul>
+
+  <h2>Zadania z budowy, w których testuję AI</h2>
+  <p>Pokazuję je jako kierownik robót, który na co dzień pracuje z tą dokumentacją, a nie jako sprzedawca narzędzi.</p>
+  <ul class="bez">
+    {przypadki.map((p) => (
+      <li>
+        <h3><a href={`/przypadki/${p.slug}/`}>{p.tytul}</a></h3>
+        <span>{p.skrot}</span><br />
+        <span class="meta">{p.efekt}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Doświadczenie</h2>
+  <ul class="bez">
+    {role.map((r) => (
+      <li>
+        <strong>{r.stanowisko}</strong>, {r.firma}<br />
+        <span class="meta">{r.zakres} ({r.czas})</span>
+      </li>
+    ))}
+  </ul>
+  <p class="meta">Pełny profil: <a href={osoba.linkedin} rel="me noopener">LinkedIn</a>.</p>
+
+  <h2>Wykształcenie</h2>
+  <ul class="bez">
+    {dane.wyksztalcenie.map((w) => (
+      <li>
+        <strong>{w.uczelnia}</strong><br />
+        <span class="meta">{w.kierunek}, {w.od}–{w.do}</span>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Umiejętności</h2>
+  <ul>
+    {dane.umiejetnosci.map((u) => <li>{u}</li>)}
+  </ul>
+
+  <h2>Najważniejsze fakty</h2>
+  <table>
+    <tbody>
+      <tr><th scope="row">Imię i nazwisko</th><td>{osoba.imie}</td></tr>
+      <tr><th scope="row">Stanowisko</th><td>{osoba.stanowisko}, roboty drogowe</td></tr>
+      <tr><th scope="row">Temat</th><td>Modele językowe przy dokumentacji budowy: przygotowanie przez model, kontrola wyniku przez człowieka</td></tr>
+      <tr><th scope="row">Miejsce</th><td>{osoba.miasto}, Polska</td></tr>
+      <tr><th scope="row">Kontakt</th><td><a href={osoba.linkedin} rel="me noopener">LinkedIn</a></td></tr>
+      <tr><th scope="row">Język strony</th><td>Polski</td></tr>
+      <tr><th scope="row">Ostatnia aktualizacja</th><td>{dataBudowy}</td></tr>
+    </tbody>
+  </table>
+</Layout>

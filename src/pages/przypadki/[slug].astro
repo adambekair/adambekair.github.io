@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import dane from '../../data/role.json';
+import przypadki from '../../data/przypadki.json';
+
+export function getStaticPaths() {
+  return przypadki.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const dataBudowy = new Date().toISOString().slice(0, 10);
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: p.tytul,
+  description: p.skrot,
+  inLanguage: 'pl',
+  dateModified: dataBudowy,
+  author: { '@type': 'Person', name: dane.osoba.imie, url: new URL('/', Astro.site).toString() },
+};
+---
+<Layout title={`${p.tytul} – Adam Bekair`} description={p.skrot} path={`/przypadki/${p.slug}/`} jsonld={jsonld}>
+  <p><a href="/">← Adam Bekair – AI w budownictwie</a></p>
+  <h1>{p.tytul}</h1>
+  <p class="podtytul">{p.skrot}</p>
+
+  <h2>Problem</h2>
+  <p>{p.problem}</p>
+
+  <h2>Co robi model</h2>
+  <p>{p.model}</p>
+
+  <h2>Co liczy kod</h2>
+  <p>{p.kod}</p>
+
+  <h2>Co zatwierdza człowiek</h2>
+  <p>{p.czlowiek}</p>
+
+  <h2>Efekt</h2>
+  <p>{p.efekt}</p>
+
+  <h2>Ograniczenia</h2>
+  <p>{p.ograniczenia}</p>
+
+  <p class="meta">Opis ogólny, bez danych z konkretnych inwestycji. Ostatnia aktualizacja: {dataBudowy}.</p>
+</Layout>

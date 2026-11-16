@@ -1,0 +1,29 @@
+{
+  "osoba": {
+    "imie": "Adam Bekair",
+    "stanowisko": "Kierownik robót",
+    "opis": "Pokazuję inżynierom i kierownikom budów, jak używać modeli językowych przy dokumentacji tak, żeby wynik dało się sprawdzić przed odbiorem.",
+    "linkedin": "https://www.linkedin.com/in/adam-bekair/",
+    "miasto": "Gdańsk"
+  },
+  "role": [
+    { "firma": "NDI", "stanowisko": "Kierownik robót", "od": "2025-02", "do": null },
+    { "firma": "Polaqua", "stanowisko": "Kierownik robót", "od": "2022-02", "do": "2025-01" },
+    { "firma": "NDI", "stanowisko": "Inżynier budowy, kierownik robót", "od": "2018-03", "do": "2022-01" },
+    { "firma": "Budimex", "stanowisko": "Inżynier budowy", "od": "2017-07", "do": "2018-02" },
+    { "firma": "STRABAG", "stanowisko": "Inżynier budowy", "od": "2016-06", "do": "2017-07" },
+    { "firma": "Przedsiębiorstwo Budowy Dróg S.A. Starogard Gdański", "stanowisko": "Majster budowy", "od": "2015-07", "do": "2015-12" }
+  ],
+  "wyksztalcenie": [
+    { "uczelnia": "Politechnika Gdańska", "kierunek": "Zarządzanie projektami budowlanymi, studia podyplomowe", "od": "2023", "do": "2024" },
+    { "uczelnia": "Politechnika Poznańska", "kierunek": "Budownictwo, studia II stopnia, inżynieria drogowo-kolejowa", "od": "2016", "do": "2019" },
+    { "uczelnia": "Państwowa Wyższa Szkoła Zawodowa w Elblągu", "kierunek": "Budownictwo, studia I stopnia, inżynier", "od": "2012", "do": "2016" }
+  ],
+  "umiejetnosci": [
+    "Uprawnienia drogowe do kierowania robotami bez ograniczeń",
+    "Analiza danych z użyciem modeli LLM",
+    "Automatyzacja raportowania: Power BI, Power Query",
+    "AutoCAD",
+    "Angielski: komunikatywny w mowie i piśmie"
+  ]
+}
