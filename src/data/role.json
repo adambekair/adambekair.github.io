@@ -8,7 +8,8 @@
     "aktualizacja": "2026-11-16"
   },
   "role": [
-    { "firma": "NDI", "stanowisko": "Kierownik robót", "od": "2025-02", "do": null },
+    { "firma": "TORPOL S.A.", "stanowisko": "Kierownik robót", "od": "2026-07", "do": null },
+    { "firma": "NDI", "stanowisko": "Kierownik robót", "od": "2025-02", "do": "2026-07" },
     { "firma": "Polaqua", "stanowisko": "Kierownik robót", "od": "2022-02", "do": "2025-01" },
     { "firma": "NDI", "stanowisko": "Inżynier budowy, kierownik robót", "od": "2018-03", "do": "2022-01" },
     { "firma": "Budimex", "stanowisko": "Inżynier budowy", "od": "2017-07", "do": "2018-02" },
