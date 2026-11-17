@@ -1,0 +1,33 @@
+[
+  {
+    "tytul": "Nowy model, stary prezydent",
+    "tekst": "Dostałem dostęp do najnowszego modelu Google. Pachnie świeżym kodem, a mentalnie utknął przed sierpniem 2025 i myśli, że prezydentem wciąż jest Andrzej Duda. Data premiery modelu to jedno, a data, do której coś wie, to drugie. Zapytaj go o Prawo budowlane, to z kamienną twarzą zacytuje uchylony dziennik ustaw.",
+    "dla": "Przepisy i normy sprawdzam we własnej bazie, nie w oknie czatu."
+  },
+  {
+    "tytul": "Lotnicy wymyślili BHP dla zdań",
+    "tekst": "W 1979 roku europejscy producenci samolotów zaczęli pracę nad kontrolowanym angielskim do instrukcji obsługi. Wyszła z tego norma ASD-STE100: około 900 słów, każde z jednym znaczeniem. Zdanie w procedurze ma najwyżej 20 słów i jedno polecenie. Brzmi jak BHP, bo to jest BHP języka. Modele tę normę znają, bo widziały mnóstwo dokumentacji technicznej.",
+    "dla": "Instrukcje na budowę też dobrze pisać krótko: jedno polecenie na zdanie, tryb rozkazujący."
+  },
+  {
+    "tytul": "Zielony komunikat, który kłamie",
+    "tekst": "Wkleiłem do modelu protokoły z badania płytą VSS. Cyfry odczytał bezbłędnie: E1 62.4 MPa, E2 152.8 MPa. A potem napisał zielonym, że stosunek wynosi 2.05 i wymagania są spełnione. Wystarczyło podzielić 152.8 przez 62.4 na biurkowym kalkulatorze. Wyszło 2.45 przy wymaganiu 2.2.",
+    "dla": "Model czyta, a dzieli prosty skrypt. Cała historia jest w zadaniu o płycie VSS.",
+    "link": "/przypadki/plyta-vss/"
+  },
+  {
+    "tytul": "Pogoda z IMGW bez pisania skryptu",
+    "tekst": "Inżynier kontraktu chce codziennie tabelę pogody, bo przyda się przy przestojach. Opisałem czatowi cel i poprosiłem o automat, który pobierze dane z IMGW do arkusza. Oczywiście nie zadziałało idealnie za pierwszym razem. Wkleiłem błąd z powrotem do czatu i dostałem poprawkę.",
+    "dla": "Nudna, codzienna robota to dobry kandydat na automat. Wynik porównuję z danymi IMGW, zanim trafi do dziennika."
+  },
+  {
+    "tytul": "Protokół z bazgrołów",
+    "tekst": "Zrobiłem zdjęcie notatek z narady i poprosiłem model o tabelę: zadanie, termin, osoba, branża. Wyszło prawie dobrze. Przekręcił nazwisko jednego z uczestników, a skrótu „stabilka” w ogóle nie zrozumiał. Musiałem mu wytłumaczyć, o co chodzi.",
+    "dla": "Jako brudnopis protokołu się nadaje. Bez przeczytania nic nie wysyłam."
+  },
+  {
+    "tytul": "Excel z martwymi liczbami",
+    "tekst": "Poprosisz model o zestawienie i dostajesz ładny arkusz, w którym suma zgadza się co do grosza. Tylko że nie ma w nim ani jednej formuły. Zmienisz grubość warstwy o dwa centymetry i nic się nie przeliczy. Wolę szablon z zablokowanymi formułami, a model wpisuje liczby tylko w komórki wejściowe.",
+    "dla": "Przy zamykaniu miesiąca sprawdzam, czy w arkuszu w ogóle są formuły."
+  }
+]

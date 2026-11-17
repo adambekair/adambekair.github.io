@@ -38,17 +38,15 @@ const jsonld = {
 
   <div class="sekcje">
     <section class="sekcja">
-      <h2>Problem</h2>
-      <div class="tresc"><p>{p.problem}</p></div>
-    </section>
-    <section class="sekcja">
-      <h2>Co robi model</h2>
-      <div class="tresc"><p>{p.model}</p></div>
-    </section>
-    <section class="sekcja">
-      <h2>Co sprawdza kod</h2>
+      <h2>Co się stało</h2>
       <div class="tresc">
-        <p>{p.kod}</p>
+        {p.co.map((akapit) => <p>{akapit}</p>)}
+      </div>
+    </section>
+    <section class="sekcja">
+      <h2>Jak robię to teraz</h2>
+      <div class="tresc">
+        <p>{p.jak}</p>
         {p.przyklad && (
           <>
             <p class="meta">{p.przyklad_opis}</p>
@@ -58,26 +56,16 @@ const jsonld = {
       </div>
     </section>
     <section class="sekcja">
-      <h2>Co zatwierdza człowiek</h2>
-      <div class="tresc"><p>{p.czlowiek}</p></div>
-    </section>
-    {p.efekt && (
-      <section class="sekcja">
-        <h2>Efekt</h2>
-        <div class="tresc"><p>{p.efekt}</p></div>
-      </section>
-    )}
-    <section class="sekcja">
-      <h2>Ograniczenia</h2>
-      <div class="tresc"><p>{p.ograniczenia}</p></div>
+      <h2>Gdzie się wysypuje</h2>
+      <div class="tresc"><p>{p.gdzie}</p></div>
     </section>
     <section class="sekcja">
       <h2>Dalej</h2>
       <div class="tresc">
         <p class="meta">Opis ogólny, bez danych z konkretnych inwestycji. Ostatnia aktualizacja: {dataAkt.split('-').reverse().join('.')}.</p>
         <div class="nastepne">
-          <a class="przycisk" href={dane.osoba.linkedin} rel="me noopener">Napisz na LinkedIn o swoim zadaniu</a>
-          <a href={`/przypadki/${nastepny.slug}/`}>Następne zadanie: {nastepny.tytul}</a>
+          <a class="przycisk" href={dane.osoba.linkedin} rel="me noopener">Napisz na LinkedIn</a>
+          <a href={`/przypadki/${nastepny.slug}/`}>Następne: {nastepny.tytul}</a>
         </div>
       </div>
     </section>

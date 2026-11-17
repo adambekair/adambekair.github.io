@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import dane from '../data/role.json';
 import przypadki from '../data/przypadki.json';
+import ciekawostki from '../data/ciekawostki.json';
 import { miesiace, opisCzasu, etykieta } from '../lib/czas.js';
 
 const { osoba } = dane;
@@ -9,6 +10,7 @@ const dataBudowy = osoba.aktualizacja;
 const [r, m, d] = dataBudowy.split('-');
 const dataPl = `${d}.${m}.${r}`;
 const idOsoby = `${new URL('/', Astro.site).toString()}#adam`;
+const wyrozniona = ciekawostki[0];
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -46,26 +48,15 @@ const starsze = role.slice(3);
     <div>
       <h1><span class="imie">Adam Bekair<span class="sr-only"> – </span></span>AI w budownictwie</h1>
       <p class="propozycja">{osoba.opis}</p>
-      <p class="podtytul">Trzy zadania z dokumentacji budowy: model odczytuje, kod sprawdza, człowiek zatwierdza.</p>
-      <p><a class="przycisk" href={osoba.linkedin} rel="me noopener">Napisz na LinkedIn o swoim zadaniu</a></p>
+      <p class="podtytul">Czasem działa, a czasem model z kamienną twarzą liczy źle. To notatki z testów, nie oferta wdrożeń.</p>
+      <p><a class="przycisk" href={osoba.linkedin} rel="me noopener">Napisz na LinkedIn</a></p>
     </div>
-    <figure>
-      <svg viewBox="0 0 336 300" role="img" aria-label="Schemat pracy: model odczytuje wartości, kod sprawdza progi i format, człowiek zatwierdza.">
-        <rect x="2" y="2" width="332" height="78" fill="#f6f7f9" stroke="#0e1116" stroke-width="2" />
-        <text x="16" y="28" font-size="12" letter-spacing="1.2">01 / MODEL</text>
-        <text x="16" y="58" font-size="19" font-weight="500">odczytuje wartości</text>
-        <line x1="168" y1="80" x2="168" y2="108" stroke="#0e1116" stroke-width="2" />
-        <polygon points="160,102 168,114 176,102" fill="#0e1116" />
-        <rect x="2" y="114" width="332" height="78" fill="#ffc400" stroke="#0e1116" stroke-width="2" />
-        <text x="16" y="140" font-size="12" letter-spacing="1.2">02 / KOD</text>
-        <text x="16" y="170" font-size="19" font-weight="500">sprawdza progi i format</text>
-        <line x1="168" y1="192" x2="168" y2="220" stroke="#0e1116" stroke-width="2" />
-        <polygon points="160,214 168,226 176,214" fill="#0e1116" />
-        <rect x="2" y="226" width="332" height="72" fill="#f6f7f9" stroke="#0e1116" stroke-width="2" />
-        <text x="16" y="252" font-size="12" letter-spacing="1.2">03 / CZŁOWIEK</text>
-        <text x="16" y="280" font-size="19" font-weight="500">zatwierdza</text>
-      </svg>
-    </figure>
+    <aside class="ramka" aria-label="Ciekawostka">
+      <span class="mono">Ciekawostka</span>
+      <h2>{wyrozniona.tytul}</h2>
+      <p>{wyrozniona.tekst}</p>
+      <p class="meta"><a href="#ciekawostki">Więcej takich rzeczy niżej</a></p>
+    </aside>
   </div>
 
   <dl class="tabelka">
@@ -76,16 +67,15 @@ const starsze = role.slice(3);
   </dl>
 
   <div class="sekcje">
-    <section class="sekcja">
-      <h2>Zadania z budowy, w których testuję AI</h2>
+    <section class="sekcja" id="ciekawostki">
+      <h2>Rzeczy, na których model się przejechał (i ja też)</h2>
       <div class="tresc">
-        <p class="meta">Pokazuję je jako kierownik robót, który na co dzień pracuje z tą dokumentacją, a nie jako sprzedawca narzędzi.</p>
         <ul class="bez zad">
-          {przypadki.map((p) => (
+          {ciekawostki.slice(1).map((c) => (
             <li>
-              <h3><a href={`/przypadki/${p.slug}/`}>{p.tytul}</a></h3>
-              <span>{p.skrot}</span>
-              <span class="efekt">{p.efekt}</span>
+              <h3>{c.tytul}</h3>
+              <p>{c.tekst}</p>
+              <p class="dla"><span class="mono">Dla budowy</span> {c.dla}{c.link && <> <a href={c.link}>Cała historia</a>.</>}</p>
             </li>
           ))}
         </ul>
@@ -93,22 +83,24 @@ const starsze = role.slice(3);
     </section>
 
     <section class="sekcja">
-      <h2>Zasady</h2>
+      <h2>Przykłady z budowy</h2>
       <div class="tresc">
-        <p>Boisz się, że model zmyśli liczbę? Dlatego pracuję tak:</p>
-        <div class="zasady">
-          <div><span class="mono">Liczby</span><p>Obliczenia i progi sprawdza kod. Model tylko odczytuje wartości.</p></div>
-          <div><span class="mono">Źródło</span><p>Odpowiedź bez źródła traktuję jako niesprawdzoną.</p></div>
-          <div><span class="mono">Decyzja</span><p>Człowiek zatwierdza. Model przygotowuje, inżynier odpowiada.</p></div>
-        </div>
+        <p class="meta">Trzy zadania, które testowałem. To testy, nie wdrożenia w firmie.</p>
+        <ul class="bez zad">
+          {przypadki.map((p) => (
+            <li>
+              <h3><a href={`/przypadki/${p.slug}/`}>{p.tytul}</a></h3>
+              <p>{p.skrot}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
 
     <section class="sekcja">
-      <h2>Skąd to podejście</h2>
+      <h2>Kim jestem</h2>
       <div class="tresc">
-        <p>Kwity dostaw przepisywane ręcznie do arkusza. Moduły z protokołu VSS do przeliczenia i porównania z progiem. Pytanie o zapis, którego trzeba szukać w grubej specyfikacji. Tak wygląda część mojej pracy z dokumentami. Uważam, że model może ją przygotować, a człowiek sprawdzić.</p>
-        <p>Z mojej perspektywy dużo pracy z dokumentami wciąż robimy na budowie ręcznie. Nie chcę na to czekać. Testuję modele językowe na typowych zadaniach z budowy, bez danych poufnych, i pokazuję, jak sprawdzać ich wynik.</p>
+        <p>Jestem kierownikiem robót. Piszę o tym, co z AI da się zrobić na budowie, a co nie, bo sam to sprawdzam. Na LinkedInie jest tego więcej.</p>
         <p class="meta">Na budowach od 2015 r., m.in. w STRABAG, Budimex, NDI i TORPOL. Uprawnienia drogowe do kierowania robotami bez ograniczeń.</p>
       </div>
     </section>
@@ -157,7 +149,7 @@ const starsze = role.slice(3);
     <section class="sekcja">
       <h2>Kontakt</h2>
       <div class="tresc">
-        <p>Masz podobny problem z dokumentacją na budowie? Chętnie o nim porozmawiam.</p>
+        <p>Masz na budowie robotę, która aż prosi się o automat? Napisz na LinkedInie, pogadamy o konkretnym problemie.</p>
         <p><a class="przycisk" href={osoba.linkedin} rel="me noopener">Napisz na LinkedIn</a></p>
       </div>
     </section>

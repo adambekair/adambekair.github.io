@@ -83,7 +83,14 @@ const url = new URL(path, Astro.site).toString();
       ul.bez { list-style: none; padding: 0; margin: 0; }
       ul.zad li { padding: 1rem 0; border-top: 1px solid var(--tusz); }
       ul.zad li:first-child { border-top: 0; padding-top: 0; }
-      ul.zad .efekt { display: block; margin-top: .25rem; font-size: .95rem; }
+      ul.zad p { margin: .25rem 0 0; }
+      ul.zad .dla { margin-top: .5rem; font-size: .98rem; }
+      ul.zad .dla .mono { color: var(--przygaszony); margin-right: .35rem; }
+      .ramka { border: 2px solid var(--tusz); background: var(--papier); box-shadow: 6px 6px 0 var(--zolty); padding: 1.1rem 1.25rem 1.25rem; max-width: 24rem; }
+      .ramka .mono { display: block; color: var(--przygaszony); margin-bottom: .35rem; }
+      .ramka h2 { margin: 0 0 .5rem; font-size: 1.25rem; }
+      .ramka p { margin: 0 0 .75rem; font-size: 1rem; }
+      .ramka p:last-child { margin-bottom: 0; }
       .zasady { display: grid; gap: 1px; background: var(--tusz); border: 2px solid var(--tusz); margin: 1rem 0 0; }
       .zasady > div { background: var(--papier); padding: .8rem 1rem 1rem; }
       .zasady .mono { display: block; color: var(--przygaszony); margin-bottom: .25rem; }
