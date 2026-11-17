@@ -1,6 +1,11 @@
 ---
+import '@fontsource/archivo/400.css';
+import '@fontsource/archivo/700.css';
+import '@fontsource/archivo/800.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
 import dane from '../data/role.json';
-const { title, description, path = '/', jsonld = null } = Astro.props;
+const { title, description, path = '/', jsonld = null, ogType = 'website', noindex = false } = Astro.props;
 const url = new URL(path, Astro.site).toString();
 ---
 <!doctype html>
@@ -10,64 +15,103 @@ const url = new URL(path, Astro.site).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={url} />
-    <meta property="og:type" content="website" />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={url} />}
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={url} />
+    {!noindex && <meta property="og:url" content={url} />}
     {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
     <link rel="icon" href="data:," />
     <style is:global>
       :root {
-        --tlo: #f5f3ee;
-        --tekst: #1c1f22;
-        --akcent: #b8430a;
-        --linia: #d9d5cb;
-        --przygaszony: #4a4f55;
+        --papier: #f6f7f9;
+        --tusz: #0e1116;
+        --przygaszony: #4b525c;
+        --zolty: #ffc400;
+        --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        background: var(--tlo);
-        color: var(--tekst);
-        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-        line-height: 1.65;
+        background: var(--papier);
+        color: var(--tusz);
+        font-family: 'Archivo', system-ui, sans-serif;
         font-size: 1.0625rem;
+        line-height: 1.6;
+        background-image:
+          linear-gradient(to right, rgba(14,17,22,.045) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(14,17,22,.045) 1px, transparent 1px);
+        background-size: 32px 32px;
       }
-      main, header, footer { max-width: 44rem; margin: 0 auto; padding: 0 1rem; }
-      header { padding-top: 1.25rem; }
-      nav a { margin-right: 1rem; }
-      h1 { font-size: 2.1rem; line-height: 1.2; margin: 2.5rem 0 0.5rem; }
-      h2 { font-size: 1.35rem; margin: 2.75rem 0 0.75rem; border-top: 1px solid var(--linia); padding-top: 1.5rem; }
-      h3 { font-size: 1.1rem; margin: 1.5rem 0 0.25rem; }
-      a { color: var(--akcent); text-underline-offset: 0.15em; }
-      a:focus-visible, summary:focus-visible { outline: 3px solid var(--tekst); outline-offset: 2px; }
-      .podtytul { font-size: 1.2rem; color: var(--przygaszony); margin: 0 0 1.25rem; }
-      .przycisk { display: inline-block; background: var(--tekst); color: var(--tlo); padding: 0.7rem 1.25rem; text-decoration: none; font-weight: 600; }
-      .przycisk:hover { background: var(--akcent); }
-      ul.bez { list-style: none; padding: 0; }
-      ul.bez li { margin: 0 0 1rem; }
-      .meta { color: var(--przygaszony); font-size: 0.95rem; }
-      table { border-collapse: collapse; width: 100%; font-size: 0.98rem; }
-      th, td { text-align: left; border-bottom: 1px solid var(--linia); padding: 0.45rem 0.5rem 0.45rem 0; vertical-align: top; }
-      th { width: 11rem; font-weight: 600; }
-      footer { padding-top: 2.5rem; padding-bottom: 3rem; color: var(--przygaszony); font-size: 0.95rem; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .strona { max-width: 62rem; margin: 0 auto; padding: 0 1.25rem; }
+      header.gora { padding: .25rem 0; border-bottom: 2px solid var(--tusz); font-family: var(--mono); font-size: .8125rem; text-transform: uppercase; letter-spacing: .08em; }
+      header.gora a { display: inline-block; padding: .85rem 0; min-height: 44px; color: var(--tusz); text-decoration: none; margin-right: 1.5rem; }
+      header.gora a:first-child { font-weight: 500; }
+      a { color: var(--tusz); text-decoration-color: var(--zolty); text-decoration-thickness: .22em; text-underline-offset: .12em; }
+      a:hover { background: var(--zolty); }
+      a:focus-visible, summary:focus-visible { outline: 3px solid var(--tusz); outline-offset: 3px; }
+      h1 { font-weight: 800; font-size: clamp(2.5rem, 7.2vw, 4.6rem); line-height: 1.02; letter-spacing: -.025em; margin: 0 0 1.25rem; max-width: 16ch; }
+      h1 .imie { display: block; font-family: var(--mono); font-weight: 500; font-size: clamp(.85rem, 2vw, 1rem); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1rem; }
+      h2 { font-size: 1.4rem; line-height: 1.2; margin: 2.5rem 0 .75rem; }
+      h3 { font-size: 1.15rem; line-height: 1.3; margin: 0 0 .25rem; }
+      .podtytul { font-size: 1.0625rem; max-width: 46ch; margin: 0 0 1.5rem; color: var(--przygaszony); }
+      .propozycja { font-weight: 700; max-width: 44ch; font-size: 1.25rem; line-height: 1.45; margin: 0 0 1rem; border-left: 6px solid var(--zolty); padding-left: 1rem; }
+      .meta { color: var(--przygaszony); font-size: .95rem; }
+      .mono { font-family: var(--mono); font-size: .8125rem; text-transform: uppercase; letter-spacing: .08em; }
+      .przycisk { display: inline-block; background: var(--zolty); color: var(--tusz); border: 2px solid var(--tusz); box-shadow: 4px 4px 0 var(--tusz); padding: .8rem 1.4rem; font-weight: 700; text-decoration: none; }
+      .przycisk:hover { background: var(--zolty); box-shadow: 2px 2px 0 var(--tusz); transform: translate(2px, 2px); }
+      @media (prefers-reduced-motion: no-preference) { .przycisk { transition: box-shadow .12s, transform .12s; } }
+      .hero { display: grid; gap: 2rem; padding-top: 2.5rem; align-items: center; }
+      @media (min-width: 52rem) { .hero { grid-template-columns: 1fr 21rem; gap: 3rem; } }
+      .hero figure { margin: 0; max-width: 21rem; }
+      .hero svg { width: 100%; height: auto; display: block; }
+      .hero svg text { font-family: var(--mono); fill: var(--tusz); }
+      .tabelka { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--tusz); border: 2px solid var(--tusz); margin: 2rem 0 2.5rem; }
+      .tabelka > div { padding: .6rem .8rem; background: var(--papier); }
+      .tabelka dt { display: block; color: var(--przygaszony); margin-bottom: .15rem; }
+      .tabelka dd { margin: 0; font-weight: 700; }
+      @media (min-width: 46rem) { .tabelka { grid-template-columns: repeat(4, 1fr); } }
+      .sekcje { counter-reset: sek; }
+      .sekcja { display: grid; gap: .5rem 2.5rem; border-top: 2px solid var(--tusz); padding: 1.25rem 0 2.5rem; counter-increment: sek; }
+      @media (min-width: 46rem) { .sekcja { grid-template-columns: 13rem 1fr; } }
+      .sekcja > h2 { margin: 0; font-family: var(--mono); font-weight: 500; font-size: .8125rem; text-transform: uppercase; letter-spacing: .08em; line-height: 1.5; }
+      .sekcja > h2::before { content: counter(sek, decimal-leading-zero) ' /'; display: block; color: var(--przygaszony); }
+      .tresc > :first-child { margin-top: 0; }
+      .tresc p, .tresc li { max-width: 66ch; }
+      ul.bez { list-style: none; padding: 0; margin: 0; }
+      ul.zad li { padding: 1rem 0; border-top: 1px solid var(--tusz); }
+      ul.zad li:first-child { border-top: 0; padding-top: 0; }
+      ul.zad .efekt { display: block; margin-top: .25rem; font-size: .95rem; }
+      .zasady { display: grid; gap: 1px; background: var(--tusz); border: 2px solid var(--tusz); margin: 1rem 0 0; }
+      .zasady > div { background: var(--papier); padding: .8rem 1rem 1rem; }
+      .zasady .mono { display: block; color: var(--przygaszony); margin-bottom: .25rem; }
+      .zasady p { margin: 0; }
+      @media (min-width: 46rem) { .zasady { grid-template-columns: repeat(3, 1fr); } }
+      ul.role li { display: grid; gap: .1rem 1.5rem; padding: .7rem 0; border-top: 1px solid rgba(14,17,22,.25); }
+      ul.role li:first-child { border-top: 0; padding-top: 0; }
+      ul.role .czas { display: block; color: var(--przygaszony); font-size: inherit; }
+      @media (min-width: 46rem) { ul.role li { grid-template-columns: 12.5rem 1fr; } }
+      details.starsze { margin-top: .75rem; border-top: 1px solid rgba(14,17,22,.25); padding-top: .25rem; }
+      details.starsze summary { cursor: pointer; padding: .75rem 0; min-height: 44px; font-family: var(--mono); font-size: .8125rem; text-transform: uppercase; letter-spacing: .08em; }
+      pre { font-family: var(--mono); font-size: .875rem; line-height: 1.5; background: var(--papier); border: 2px solid var(--tusz); padding: .9rem 1rem; margin: .5rem 0 0; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .nastepne { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; margin-top: .5rem; }
+      footer.dol { border-top: 2px solid var(--tusz); padding: 1.25rem 0 3rem; color: var(--przygaszony); font-size: .9rem; }
     </style>
   </head>
   <body>
-    <header>
-      <nav aria-label="Główna">
-        <a href="/">{dane.osoba.imie}</a>
-        <a href={dane.osoba.linkedin} rel="me noopener">LinkedIn</a>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p>Opinie prywatne. Nie reprezentuję pracodawcy.</p>
-      <p>Strona nie ma formularzy, ciasteczek ani analityki. Hosting (GitHub Pages) może zapisywać adresy IP w logach technicznych.</p>
-    </footer>
+    <div class="strona">
+      <header class="gora">
+        <nav aria-label="Główna"><a href="/">{dane.osoba.imie}</a><a href={dane.osoba.linkedin} rel="me noopener">LinkedIn</a></nav>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer class="dol">
+        <p>Opinie prywatne. Nie reprezentuję pracodawcy.</p>
+        <p>Strona nie ma formularzy, ciasteczek ani analityki. Hosting (GitHub Pages) może zapisywać adresy IP w logach technicznych.</p>
+      </footer>
+    </div>
   </body>
 </html>

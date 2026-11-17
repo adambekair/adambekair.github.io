@@ -1,7 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Nie znaleziono strony – Adam Bekair" description="Nie ma takiej strony." path="/404/">
-  <h1>Nie znaleziono strony</h1>
-  <p>Ten adres nie istnieje. <a href="/">Wróć na stronę główną.</a></p>
+<Layout title="Nie znaleziono strony – Adam Bekair" description="Nie ma takiej strony." path="/404/" noindex={true}>
+  <div class="hero" style="padding-top: 2.5rem;">
+    <div>
+      <h1>Nie znaleziono strony</h1>
+      <p>Ten adres nie istnieje. <a href="/">Wróć na stronę główną.</a></p>
+    </div>
+  </div>
 </Layout>

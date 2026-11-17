@@ -4,10 +4,15 @@ import dane from '../../data/role.json';
 import przypadki from '../../data/przypadki.json';
 
 export function getStaticPaths() {
-  return przypadki.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+  return przypadki.map((p, i) => ({
+    params: { slug: p.slug },
+    props: { p, nastepny: przypadki[(i + 1) % przypadki.length] },
+  }));
 }
-const { p } = Astro.props;
-const dataBudowy = dane.osoba.aktualizacja;
+const { p, nastepny } = Astro.props;
+const dataAkt = dane.osoba.aktualizacja;
+const adres = new URL(`/przypadki/${p.slug}/`, Astro.site).toString();
+const idOsoby = `${new URL('/', Astro.site).toString()}#adam`;
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -15,32 +20,66 @@ const jsonld = {
   headline: p.tytul,
   description: p.skrot,
   inLanguage: 'pl',
-  dateModified: dataBudowy,
-  author: { '@type': 'Person', name: dane.osoba.imie, url: new URL('/', Astro.site).toString() },
+  url: adres,
+  mainEntityOfPage: adres,
+  datePublished: dane.osoba.opublikowano,
+  dateModified: dataAkt,
+  author: { '@type': 'Person', '@id': idOsoby, name: dane.osoba.imie },
 };
 ---
-<Layout title={`${p.tytul} – Adam Bekair`} description={p.skrot} path={`/przypadki/${p.slug}/`} jsonld={jsonld}>
-  <p><a href="/">← Adam Bekair – AI w budownictwie</a></p>
-  <h1>{p.tytul}</h1>
-  <p class="podtytul">{p.skrot}</p>
+<Layout title={`${p.tytul} – Adam Bekair`} description={p.skrot} path={`/przypadki/${p.slug}/`} jsonld={jsonld} ogType="article">
+  <div class="hero" style="padding-top: 2rem;">
+    <div>
+      <p class="mono"><a href="/">← Adam Bekair – AI w budownictwie</a></p>
+      <h1 style="max-width: 20ch;">{p.tytul}</h1>
+      <p class="podtytul">{p.skrot}</p>
+    </div>
+  </div>
 
-  <h2>Problem</h2>
-  <p>{p.problem}</p>
-
-  <h2>Co robi model</h2>
-  <p>{p.model}</p>
-
-  <h2>Co liczy kod</h2>
-  <p>{p.kod}</p>
-
-  <h2>Co zatwierdza człowiek</h2>
-  <p>{p.czlowiek}</p>
-
-  <h2>Efekt</h2>
-  <p>{p.efekt}</p>
-
-  <h2>Ograniczenia</h2>
-  <p>{p.ograniczenia}</p>
-
-  <p class="meta">Opis ogólny, bez danych z konkretnych inwestycji. Ostatnia aktualizacja: {dataBudowy}.</p>
+  <div class="sekcje">
+    <section class="sekcja">
+      <h2>Problem</h2>
+      <div class="tresc"><p>{p.problem}</p></div>
+    </section>
+    <section class="sekcja">
+      <h2>Co robi model</h2>
+      <div class="tresc"><p>{p.model}</p></div>
+    </section>
+    <section class="sekcja">
+      <h2>Co sprawdza kod</h2>
+      <div class="tresc">
+        <p>{p.kod}</p>
+        {p.przyklad && (
+          <>
+            <p class="meta">{p.przyklad_opis}</p>
+            <pre>{p.przyklad}</pre>
+          </>
+        )}
+      </div>
+    </section>
+    <section class="sekcja">
+      <h2>Co zatwierdza człowiek</h2>
+      <div class="tresc"><p>{p.czlowiek}</p></div>
+    </section>
+    {p.efekt && (
+      <section class="sekcja">
+        <h2>Efekt</h2>
+        <div class="tresc"><p>{p.efekt}</p></div>
+      </section>
+    )}
+    <section class="sekcja">
+      <h2>Ograniczenia</h2>
+      <div class="tresc"><p>{p.ograniczenia}</p></div>
+    </section>
+    <section class="sekcja">
+      <h2>Dalej</h2>
+      <div class="tresc">
+        <p class="meta">Opis ogólny, bez danych z konkretnych inwestycji. Ostatnia aktualizacja: {dataAkt.split('-').reverse().join('.')}.</p>
+        <div class="nastepne">
+          <a class="przycisk" href={dane.osoba.linkedin} rel="me noopener">Napisz na LinkedIn o swoim zadaniu</a>
+          <a href={`/przypadki/${nastepny.slug}/`}>Następne zadanie: {nastepny.tytul}</a>
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>

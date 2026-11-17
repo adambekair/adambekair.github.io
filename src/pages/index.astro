@@ -6,6 +6,9 @@ import { miesiace, opisCzasu, etykieta } from '../lib/czas.js';
 
 const { osoba } = dane;
 const dataBudowy = osoba.aktualizacja;
+const [r, m, d] = dataBudowy.split('-');
+const dataPl = `${d}.${m}.${r}`;
+const idOsoby = `${new URL('/', Astro.site).toString()}#adam`;
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -13,6 +16,7 @@ const jsonld = {
   dateModified: dataBudowy,
   mainEntity: {
     '@type': 'Person',
+    '@id': idOsoby,
     name: osoba.imie,
     jobTitle: osoba.stanowisko,
     description: osoba.opis,
@@ -24,11 +28,13 @@ const jsonld = {
   },
 };
 
-const role = dane.role.map((r) => ({
-  ...r,
-  czas: opisCzasu(miesiace(r.od, r.do, osoba.aktualizacja)),
-  zakres: `${etykieta(r.od)} – ${r.do ? etykieta(r.do) : 'obecnie'}`,
+const role = dane.role.map((x) => ({
+  ...x,
+  czas: opisCzasu(miesiace(x.od, x.do, osoba.aktualizacja)),
+  zakres: `${etykieta(x.od)} – ${x.do ? etykieta(x.do) : 'obecnie'}`,
 }));
+const najnowsze = role.slice(0, 3);
+const starsze = role.slice(3);
 ---
 <Layout
   title="Adam Bekair – AI w budownictwie"
@@ -36,72 +42,124 @@ const role = dane.role.map((r) => ({
   path="/"
   jsonld={jsonld}
 >
-  <h1>Adam Bekair – AI w budownictwie</h1>
-  <p class="podtytul">Kierownik robót drogowych. Sprawdzam, którą ręczną pracę przy dokumentacji budowy może przygotować model językowy.</p>
-  <p><strong>{osoba.opis}</strong></p>
-  <p>Kwity dostaw przepisywane ręcznie do arkusza. Moduły z protokołu VSS do przeliczenia i porównania z progiem. Pytanie o zapis, którego trzeba szukać w grubej specyfikacji. Tak wygląda część mojej pracy z dokumentami. Uważam, że model może ją przygotować, a człowiek sprawdzić.</p>
-  <p class="meta">Na budowach od 2015 r., m.in. w STRABAG, Budimex, NDI i TORPOL. Uprawnienia drogowe do kierowania robotami bez ograniczeń.</p>
-  <p>Masz podobny problem z dokumentacją na budowie? Chętnie o nim porozmawiam.</p>
-  <p><a class="przycisk" href={osoba.linkedin} rel="me noopener">Napisz na LinkedIn</a></p>
+  <div class="hero">
+    <div>
+      <h1><span class="imie">Adam Bekair<span class="sr-only"> – </span></span>AI w budownictwie</h1>
+      <p class="propozycja">{osoba.opis}</p>
+      <p class="podtytul">Trzy zadania z dokumentacji budowy: model odczytuje, kod sprawdza, człowiek zatwierdza.</p>
+      <p><a class="przycisk" href={osoba.linkedin} rel="me noopener">Napisz na LinkedIn o swoim zadaniu</a></p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 336 300" role="img" aria-label="Schemat pracy: model odczytuje wartości, kod sprawdza progi i format, człowiek zatwierdza.">
+        <rect x="2" y="2" width="332" height="78" fill="#f6f7f9" stroke="#0e1116" stroke-width="2" />
+        <text x="16" y="28" font-size="12" letter-spacing="1.2">01 / MODEL</text>
+        <text x="16" y="58" font-size="19" font-weight="500">odczytuje wartości</text>
+        <line x1="168" y1="80" x2="168" y2="108" stroke="#0e1116" stroke-width="2" />
+        <polygon points="160,102 168,114 176,102" fill="#0e1116" />
+        <rect x="2" y="114" width="332" height="78" fill="#ffc400" stroke="#0e1116" stroke-width="2" />
+        <text x="16" y="140" font-size="12" letter-spacing="1.2">02 / KOD</text>
+        <text x="16" y="170" font-size="19" font-weight="500">sprawdza progi i format</text>
+        <line x1="168" y1="192" x2="168" y2="220" stroke="#0e1116" stroke-width="2" />
+        <polygon points="160,214 168,226 176,214" fill="#0e1116" />
+        <rect x="2" y="226" width="332" height="72" fill="#f6f7f9" stroke="#0e1116" stroke-width="2" />
+        <text x="16" y="252" font-size="12" letter-spacing="1.2">03 / CZŁOWIEK</text>
+        <text x="16" y="280" font-size="19" font-weight="500">zatwierdza</text>
+      </svg>
+    </figure>
+  </div>
 
-  <h2>Skąd to podejście</h2>
-  <p>Z mojej perspektywy dużo pracy z dokumentami wciąż robimy na budowie ręcznie. Nie chcę na to czekać. Testuję modele językowe na typowych zadaniach z budowy, bez danych poufnych, i pokazuję, jak sprawdzać ich wynik.</p>
+  <dl class="tabelka">
+    <div><dt class="mono">Stanowisko</dt><dd>{osoba.stanowisko}</dd></div>
+    <div><dt class="mono">Miejsce</dt><dd>{osoba.miasto}</dd></div>
+    <div><dt class="mono">Temat</dt><dd>AI w budownictwie</dd></div>
+    <div><dt class="mono">Aktualizacja</dt><dd>{dataPl}</dd></div>
+  </dl>
 
-  <h2>Co jest dla mnie ważne dziś</h2>
-  <ul>
-    <li>Boisz się, że model zmyśli liczbę? U mnie liczby liczy kod, nie model.</li>
-    <li>Wynik da się sprawdzić. Odpowiedź bez źródła nie wchodzi do dokumentu.</li>
-    <li>Człowiek zatwierdza. Model przygotowuje, inżynier odpowiada.</li>
-  </ul>
+  <div class="sekcje">
+    <section class="sekcja">
+      <h2>Zadania z budowy, w których testuję AI</h2>
+      <div class="tresc">
+        <p class="meta">Pokazuję je jako kierownik robót, który na co dzień pracuje z tą dokumentacją, a nie jako sprzedawca narzędzi.</p>
+        <ul class="bez zad">
+          {przypadki.map((p) => (
+            <li>
+              <h3><a href={`/przypadki/${p.slug}/`}>{p.tytul}</a></h3>
+              <span>{p.skrot}</span>
+              <span class="efekt">{p.efekt}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
 
-  <h2>Zadania z budowy, w których testuję AI</h2>
-  <p>Pokazuję je jako kierownik robót, który na co dzień pracuje z tą dokumentacją, a nie jako sprzedawca narzędzi.</p>
-  <ul class="bez">
-    {przypadki.map((p) => (
-      <li>
-        <h3><a href={`/przypadki/${p.slug}/`}>{p.tytul}</a></h3>
-        <span>{p.skrot}</span><br />
-        <span class="meta">{p.efekt}</span>
-      </li>
-    ))}
-  </ul>
+    <section class="sekcja">
+      <h2>Zasady</h2>
+      <div class="tresc">
+        <p>Boisz się, że model zmyśli liczbę? Dlatego pracuję tak:</p>
+        <div class="zasady">
+          <div><span class="mono">Liczby</span><p>Obliczenia i progi sprawdza kod. Model tylko odczytuje wartości.</p></div>
+          <div><span class="mono">Źródło</span><p>Odpowiedź bez źródła traktuję jako niesprawdzoną.</p></div>
+          <div><span class="mono">Decyzja</span><p>Człowiek zatwierdza. Model przygotowuje, inżynier odpowiada.</p></div>
+        </div>
+      </div>
+    </section>
 
-  <h2>Doświadczenie</h2>
-  <ul class="bez">
-    {role.map((r) => (
-      <li>
-        <strong>{r.stanowisko}</strong>, {r.firma}<br />
-        <span class="meta">{r.zakres} ({r.czas})</span>
-      </li>
-    ))}
-  </ul>
-  <p class="meta">Pełny profil: <a href={osoba.linkedin} rel="me noopener">LinkedIn</a>.</p>
+    <section class="sekcja">
+      <h2>Skąd to podejście</h2>
+      <div class="tresc">
+        <p>Kwity dostaw przepisywane ręcznie do arkusza. Moduły z protokołu VSS do przeliczenia i porównania z progiem. Pytanie o zapis, którego trzeba szukać w grubej specyfikacji. Tak wygląda część mojej pracy z dokumentami. Uważam, że model może ją przygotować, a człowiek sprawdzić.</p>
+        <p>Z mojej perspektywy dużo pracy z dokumentami wciąż robimy na budowie ręcznie. Nie chcę na to czekać. Testuję modele językowe na typowych zadaniach z budowy, bez danych poufnych, i pokazuję, jak sprawdzać ich wynik.</p>
+        <p class="meta">Na budowach od 2015 r., m.in. w STRABAG, Budimex, NDI i TORPOL. Uprawnienia drogowe do kierowania robotami bez ograniczeń.</p>
+      </div>
+    </section>
 
-  <h2>Wykształcenie</h2>
-  <ul class="bez">
-    {dane.wyksztalcenie.map((w) => (
-      <li>
-        <strong>{w.uczelnia}</strong><br />
-        <span class="meta">{w.kierunek}, {w.od}–{w.do}</span>
-      </li>
-    ))}
-  </ul>
+    <section class="sekcja">
+      <h2>Doświadczenie</h2>
+      <div class="tresc">
+        <ul class="bez role">
+          {najnowsze.map((x) => (
+            <li>
+              <span class="mono">{x.zakres}<span class="czas">{x.czas}</span></span>
+              <span><strong>{x.stanowisko}</strong>, {x.firma}</span>
+            </li>
+          ))}
+        </ul>
+        <details class="starsze">
+          <summary>Starsze role ({starsze.length})</summary>
+          <ul class="bez role">
+            {starsze.map((x) => (
+              <li>
+                <span class="mono">{x.zakres}<span class="czas">{x.czas}</span></span>
+                <span><strong>{x.stanowisko}</strong>, {x.firma}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+        <p class="meta">Pełny profil: <a href={osoba.linkedin} rel="me noopener">LinkedIn</a>.</p>
+      </div>
+    </section>
 
-  <h2>Umiejętności</h2>
-  <ul>
-    {dane.umiejetnosci.map((u) => <li>{u}</li>)}
-  </ul>
+    <section class="sekcja">
+      <h2>Wykształcenie</h2>
+      <div class="tresc">
+        <ul class="bez role">
+          {dane.wyksztalcenie.map((w) => (
+            <li>
+              <span class="mono">{w.od}–{w.do}</span>
+              <span><strong>{w.uczelnia}</strong><br /><span class="meta">{w.kierunek}</span></span>
+            </li>
+          ))}
+        </ul>
+        <p class="meta">{dane.umiejetnosci.filter((u) => !u.startsWith('Uprawnienia')).join(' · ')}</p>
+      </div>
+    </section>
 
-  <h2>Najważniejsze fakty</h2>
-  <table>
-    <tbody>
-      <tr><th scope="row">Imię i nazwisko</th><td>{osoba.imie}</td></tr>
-      <tr><th scope="row">Stanowisko</th><td>{osoba.stanowisko}, roboty drogowe</td></tr>
-      <tr><th scope="row">Temat</th><td>Modele językowe przy dokumentacji budowy: przygotowanie przez model, kontrola wyniku przez człowieka</td></tr>
-      <tr><th scope="row">Miejsce</th><td>{osoba.miasto}, Polska</td></tr>
-      <tr><th scope="row">Kontakt</th><td><a href={osoba.linkedin} rel="me noopener">LinkedIn</a></td></tr>
-      <tr><th scope="row">Język strony</th><td>Polski</td></tr>
-      <tr><th scope="row">Ostatnia aktualizacja</th><td>{dataBudowy}</td></tr>
-    </tbody>
-  </table>
+    <section class="sekcja">
+      <h2>Kontakt</h2>
+      <div class="tresc">
+        <p>Masz podobny problem z dokumentacją na budowie? Chętnie o nim porozmawiam.</p>
+        <p><a class="przycisk" href={osoba.linkedin} rel="me noopener">Napisz na LinkedIn</a></p>
+      </div>
+    </section>
+  </div>
 </Layout>
